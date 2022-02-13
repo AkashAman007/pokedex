@@ -22,6 +22,11 @@ dependencies {
     runtime('org.springframework.boot:spring-boot-devtools')
 
     compile 'org.reflections:reflections:0.9.11'
+
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
+
+    //Test Dependencies
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 test {
