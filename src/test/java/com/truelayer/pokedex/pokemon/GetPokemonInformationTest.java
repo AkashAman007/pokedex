@@ -61,7 +61,6 @@ public class GetPokemonInformationTest {
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
         JsonNode pokemonResponse = response.getBody();
         Assert.assertNotNull(pokemonResponse);
-
     }
 
     @Test

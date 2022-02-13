@@ -30,4 +30,10 @@ public class PokemonController {
         PokemonResponse pokemonResponse = pokemonService.getPokemonByName(pokemonName);
         return new ResponseEntity<PokemonResponse>(pokemonResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/translated/{pokemonName}")
+    public ResponseEntity<?> getPokemonWithTranslatedDescription(@PathVariable String pokemonName) throws IOException, ResourceNotFoundException, BusinessException {
+        PokemonResponse pokemonResponse = pokemonService.getPokemonWithFunTranslation(pokemonName);
+        return new ResponseEntity<PokemonResponse>(pokemonResponse, HttpStatus.OK);
+    }
 }
