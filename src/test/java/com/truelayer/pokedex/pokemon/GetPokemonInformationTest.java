@@ -2,8 +2,6 @@ package com.truelayer.pokedex.pokemon;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.truelayer.pokedex.exception.BusinessException;
-import com.truelayer.pokedex.exception.ResourceNotFoundException;
 import com.truelayer.pokedex.service.PokeApiService;
 import org.junit.Assert;
 import org.junit.Test;

@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class PokeApiService {
         this.restTemplate = restTemplate;
     }
 
+    @Cacheable("value=pokeApiDto")
     public PokeApiDto getPokemon(String pokemonName) throws IOException, ResourceNotFoundException, BusinessException {
         URI uri = preparePokemonRequestURI(pokemonName);
         HttpEntity<?> entity = new HttpEntity<>(new HttpHeaders());
