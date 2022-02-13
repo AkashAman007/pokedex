@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOG_HOME" value="logs" />
+    <property name="LOG_FILE_NAME" value="pokedex.log" />
+
+    <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${LOG_FILE_NAME}</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %X{requestId} %highlight(%-5level) %cyan(%logger{36}) - %msg %n
+            </Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_HOME}/archived/pokedex.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+            <maxFileSize>500MB</maxFileSize>
+            <maxHistory>20</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+
+        </rollingPolicy>
+
+    </appender>
+
+    <logger name="org.springframework.web.servlet.mvc.method.annotation" level="info"/>
+    <logger name="org.springframework.web.context.request.async.WebAsyncManager" level="info"/>
+    <logger name="org.springframework.web.servlet.DispatcherServlet" level="info"/>
+
+
+    <root level="error">
+        <appender-ref ref="dailyRollingFileAppender" />
+    </root>
+
+</configuration>

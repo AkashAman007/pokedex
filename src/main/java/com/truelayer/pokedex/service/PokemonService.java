@@ -4,6 +4,8 @@ import com.truelayer.pokedex.dto.mapper.PokemonMapper;
 import com.truelayer.pokedex.dto.model.FlavorTextEntry;
 import com.truelayer.pokedex.dto.model.PokeApiDto;
 import com.truelayer.pokedex.dto.response.PokemonResponse;
+import com.truelayer.pokedex.exception.BusinessException;
+import com.truelayer.pokedex.exception.ResourceNotFoundException;
 import com.truelayer.pokedex.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,8 +25,8 @@ public class PokemonService {
         this.pokeApiService = pokeApiService;
     }
 
-    public PokemonResponse getPokemonByName(String pokemonName) throws IOException {
-        PokeApiDto pokeApiDto = this.pokeApiService.getPokemon(pokemonName);
+    public PokemonResponse getPokemonByName(String pokemonName) throws IOException, ResourceNotFoundException, BusinessException {
+        PokeApiDto pokeApiDto = this.pokeApiService.getPokemon(pokemonName.toLowerCase());
         String pokemonDescription = this.getPokemonDescription(pokeApiDto ,ENGLISH_LANGUAGE_IDENTIFIER);
         return PokemonMapper.toPokemonResponse(pokeApiDto, pokemonDescription);
     }

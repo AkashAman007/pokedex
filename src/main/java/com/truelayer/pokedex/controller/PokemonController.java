@@ -1,6 +1,8 @@
 package com.truelayer.pokedex.controller;
 
 import com.truelayer.pokedex.dto.response.PokemonResponse;
+import com.truelayer.pokedex.exception.BusinessException;
+import com.truelayer.pokedex.exception.ResourceNotFoundException;
 import com.truelayer.pokedex.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ public class PokemonController {
     }
 
     @GetMapping("/{pokemonName}")
-    public ResponseEntity<?> getPokemon(@PathVariable String pokemonName) throws IOException {
+    public ResponseEntity<?> getPokemon(@PathVariable String pokemonName) throws IOException, ResourceNotFoundException, BusinessException {
         PokemonResponse pokemonResponse = pokemonService.getPokemonByName(pokemonName);
         return new ResponseEntity<PokemonResponse>(pokemonResponse, HttpStatus.OK);
     }

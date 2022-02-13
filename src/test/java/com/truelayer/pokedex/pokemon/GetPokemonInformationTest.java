@@ -2,13 +2,13 @@ package com.truelayer.pokedex.pokemon;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.truelayer.pokedex.dto.model.PokeApiDto;
+import com.truelayer.pokedex.exception.BusinessException;
+import com.truelayer.pokedex.exception.ResourceNotFoundException;
 import com.truelayer.pokedex.service.PokeApiService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class GetPokemonInformationTest {
     private final String PIKACHU_HABITAT = "forest";
     private final boolean PIKACHU_LEGENDARY_STATUS = false;
     private final String PIKACHU_DESCRIPTION = "When several of these POKéMON gather, their electricity could build and cause lightning storms.";
+    private final String UNKNOWN_POKEMON = "gizmoland";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -107,6 +109,14 @@ public class GetPokemonInformationTest {
         ResponseEntity<JsonNode> response = getApiResponse(PIKACHU);
         JsonNode pokemon = response.getBody();
         Assert.assertEquals("", pokemon.get("description").asText());
+    }
+
+    @Test
+    public void testPokemonNotFound() {
+        Mockito.when(restTemplate.exchange(any(), any(), any(), eq(JsonNode.class)))
+                .thenThrow(new RestClientException(UNKNOWN_POKEMON+" : Not Found"));
+        ResponseEntity<JsonNode> response = getApiResponse(UNKNOWN_POKEMON);
+        Assert.assertNotEquals(HttpStatus.OK, response.getStatusCode());
     }
 
 
