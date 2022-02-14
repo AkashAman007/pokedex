@@ -148,3 +148,4 @@ The logs can be set at appropriate level
 - **Caching** Instead of a local cache and in-memory database cache can be used with better cache eviction policy
 - **Terraform** To manage infrastructure as code
 - **Test Coverage** Rules around minimum Test Coverage
+- **API Calls Authentication** Create a custom RestTemplate whose header Interceptor can handle authentication for external API calls and add appropriate Secret Production Key
