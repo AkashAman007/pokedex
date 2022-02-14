@@ -49,11 +49,14 @@ git clone https://github.com/AkashAman007/pokedex.git
     # start the application using Java 1.8
     java -jar build/libs/pokedex-1.0-SNAPSHOT.jar
     ```
-3. The application will start at port `8080`
+3. The application will start at port `8080` in `foreground`
 4. You can tail logs in the logs folder if needed
 5. The application is ready to receive request for it's registered Endpoints
+6. The application can be killed by simply stopping the process running in foreground
 
-Note - The Gradle Version used in the application is 4.10.2 . You don't need to install gradle externally
+Note - \
+The Gradle Version used in the application is 4.10.2 . You don't need to install gradle externally\
+The process is started in foreground for dev purpose.
 
 ## Testing
 The application uses `SpringBootTest` to run a Web Server on a Random Port.\
