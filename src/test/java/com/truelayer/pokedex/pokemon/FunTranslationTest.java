@@ -21,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class FunTranslationTest {
     private final String PIKACHU = "pikachu";
     private final String MEWTWO_DESC_YODA = "Created by a scientist after years of horrific gene splicing and dna engineering experiments,  it was.";
     private final String PIKACHU_DESC_SHAKESPEARE = "At which hour several of these pokémon gather,  their electricity couldst buildeth and cause lightning storms.";
+    private final String PIKACHU_DESCRIPTION = "When several of these POKéMON gather, their electricity could build and cause lightning storms.";
 
 
     @Autowired
@@ -128,6 +130,19 @@ public class FunTranslationTest {
         JsonNode pokemonResponse = response.getBody();
         Assert.assertNotNull(pokemonResponse);
         Assert.assertEquals(PIKACHU_DESC_SHAKESPEARE, pokemonResponse.get("description").asText());
+    }
+
+    @Test
+    public void testTranslationWhenFunApiThrowsError() throws IOException {
+        Mockito.when(restTemplate.exchange(any(), any(), any(), eq(JsonNode.class)))
+                .thenReturn(mockPikachuResponse());
+        Mockito.when(restTemplate.postForEntity(anyString(), any(), eq(JsonNode.class)))
+                .thenThrow(new RestClientException("Connection Issue"));
+        ResponseEntity<JsonNode> response = getApiResponse(PIKACHU);
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+        JsonNode pokemonResponse = response.getBody();
+        Assert.assertNotNull(pokemonResponse);
+        Assert.assertEquals(PIKACHU_DESCRIPTION, pokemonResponse.get("description").asText());
     }
 
     public ResponseEntity<JsonNode> mockPikachuResponse() throws IOException {

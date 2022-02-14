@@ -40,8 +40,12 @@ public class PokemonService {
     public PokemonResponse getPokemonWithFunTranslation(String pokemonName) throws IOException, ResourceNotFoundException, BusinessException {
         PokemonResponse pokemonResponse = this.getPokemonByName(pokemonName);
         String translationLanguage = getTranslationLanguageForPokemonType(pokemonResponse.getHabitat(), pokemonResponse.getIsLegendary());
-        TranslationDto translationDto = this.translationService.translate(pokemonResponse.getDescription(), translationLanguage);
-        pokemonResponse.setDescription(translationDto.getContents().getTranslated());
+        try {
+            TranslationDto translationDto = this.translationService.translate(pokemonResponse.getDescription(), translationLanguage);
+            pokemonResponse.setDescription(translationDto.getContents().getTranslated());
+        } catch (Exception e) {
+            log.error("Could not translate description for {} in {}. Reverting to basic description", pokemonName, translationLanguage);
+        }
         return pokemonResponse;
     }
 
