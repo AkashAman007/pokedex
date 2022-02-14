@@ -69,6 +69,8 @@ Better to pass the Path of Java 1.8 in the environment Variable and then run the
 export JAVA_HOME={Path to Java 1.8 JDK}
 # E.g., In Mac OS using Open Jdk 1.8
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/openlogic-openjdk-8.jdk/Contents/Home
+# E.g., In Ubuntu using Open Jdk 1.8
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 # Run test using gradle
 ./gradlew clean test -Dorg.gradle.java.home=$JAVA_HOME
 ```
